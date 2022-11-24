@@ -3,37 +3,51 @@ from sympy import integrate, init_printing, cos, sin
 import numpy as np
 from sympy.abc import x
 
+from scipy import integrate
 
 
 
-def pot_dir_den(H_lambda=1/4,I_max=1,r=1):
+Pot = 0
+Total = 0
+direct = 0
+
+def pot_dir_den(H_lambda=1/4,I_max=1,r=1,j=0):
     #I_max = 1
-    r = 1
-    H_lambda = 1/4
+    #r = 1
+    #H_lambda = 1/4
     z_espacio = 120*np.pi
     KH = 2*np.pi*H_lambda
 
-
-    Total = float(integrate((cos(KH*cos(x))-cos(KH))**2/sin(x),(x,0,np.pi)))
-    Pot = Total*z_espacio*I_max**2/(4*np.pi)
-    print(Pot)
-
-    
-    print("Densidad de potencia radiada")
-    print(Total/(4*np.pi), "Imax^2/r [W/m^2]")
-
-    print("Directividad")
     x1 = np.linspace(0.00001,np.pi-0.00001, num=1000)
-    #print(x1)
+    y1 = (np.cos(KH*np.cos(x1))-np.cos(KH))**2/np.sin(x1)
+    I1 = integrate.simpson(y1, x1)
+
+    Total = I1
+    Pot = Total*z_espacio*I_max**2/(4*np.pi)
+
     f = (np.cos(KH*np.cos(x1))-np.cos(KH))**2/np.sin(x1)
     max_f = max(f)
-    print(Total/max_f, "rad")
-    print(Total/(max_f*np.pi)*180, "grados")
+    direct = (4*np.pi)/Total*max_f
 
-    print("Resistencia de Radiacion")
-    print(2*Pot, "Ohmios")
     
-pot_dir_den(1/2)
+    if (j==1):
+        return Pot
+    elif (j==2):
+        return Total/(4*np.pi)
+    elif (j==3):
+        return direct
+    elif (j==4):
+        return 2*Pot
+    else:
+        return print()
 
+def pot_prom(H_lambda=1/4,I_max=1,r=1):
+    return pot_dir_den(H_lambda,I_max,r,1)
+def densidad_pot(H_lambda=1/4,I_max=1,r=1):
+    return pot_dir_den(H_lambda,I_max,r,2)
+def directividad(H_lambda=1/4,I_max=1,r=1):
+    return pot_dir_den(H_lambda,I_max,r,3)
+def res_rad(H_lambda=1/4,I_max=1,r=1):
+    return pot_dir_den(H_lambda,I_max,r,4)
 
 
