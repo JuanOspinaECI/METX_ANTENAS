@@ -23,19 +23,13 @@ def res_perdidas(material=1,radio=2*10**-3,frec=10*10**6, long = 1/2 ):
     #print(material)
     lon_onda = (3*10**8)/(frec)
     l = lon_onda*long
+    #Calculo de la resitencia de pérdidas según el material y la frecuencia
     Rs = math.sqrt((np.pi*frec*4*np.pi*10**(-7))/material)
     return Rs*(l/(2*np.pi*radio))
 
-def reactancia(l_dipolo, radio, frecuencia):
-    
-    KH = 2*np.pi*l_dipolo/2
-    H = l_dipolo/2
-    z = 120*(np.log(2*H/radio)-1)
-    #xc = z*1/math.tan(KH)
-    xc=z ##revisar
-    return -xc
 
 def roe_coaxial(real,img):
+    #Calculo del ROE según una impedancia de entrada (Parte real e imaginaria)
     z = complex(real,img)
     ref = (z-70)/(z+70)
     ref_abs = abs(ref)

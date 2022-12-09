@@ -1,6 +1,6 @@
 # Programa de diseño de bocina piramidal
-#
-# Juan Camilo Ospina
+# Diciembre 2022
+# Autor: Juan Camilo Ospina
 
 import numpy as np
 import math
@@ -41,7 +41,7 @@ def start():
         B = 2
         ak=0
 
-        #Se haran máximo 10 iteraciones, si no se cumple el criterio de diseño
+        #Se haran máximo 10 millones iteraciones, si no se cumple el criterio de diseño
             #Se pregunta de nuevo los datos al usuario porque el diseño no es posible          
         for k in range(10000000):
             
