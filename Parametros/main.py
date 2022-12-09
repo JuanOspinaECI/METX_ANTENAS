@@ -14,6 +14,8 @@ while (l_dipolo<1/10):
     l_dipolo = float(Fraction(input("Ingrese longitud del dipolo en término de lambda > 1/10:  ")))
 fr = float(input("Ingrese frecuencia de operación del dipolo:  "))
 
+fac_q = float(input("Ingrese el valor del factor Q del dipolo: "))
+
 diagrama_rad.diag_rad(l_dipolo)
 
 print("")
@@ -64,14 +66,14 @@ print("Eficiencia: ", ef)
 print("Ganancia: ", ef*direct, " veces")
 print("Ganancia: ", 10*math.log(ef*direct,10), " dBi")
 print()
-print("Impedancia")
-reactancia = resistencias.reactancia(l_dipolo,rad,fr)
-print(r_perdidas+res_rad, "-j", abs(reactancia))
-print()
-Q = abs(reactancia)/r_perdidas
-print("Factor Q:", Q)
-print()
-
+#print("Impedancia")
+#reactancia = resistencias.reactancia(l_dipolo,rad,fr)
+#print(r_perdidas+res_rad, "-j", abs(reactancia))
+#print()
+#Q = abs(reactancia)/r_perdidas
+#print("Factor Q:", Q)
+#print()
+reactancia = r_perdidas*fac_q/(2*np.pi*fr)
 roe = resistencias.roe_coaxial(r_perdidas+res_rad,reactancia)
-anc_ban = (roe-1)/(Q*math.sqrt(roe))
+anc_ban = (roe-1)/(fac_q*math.sqrt(roe))
 print("Ancho de banda de la antena con cable coaxial:", anc_ban, " Hz" )
